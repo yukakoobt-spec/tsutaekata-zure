@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>伝え方のズレ度 診断チェック（bataco）</title>
+  <style>
+    :root{
+      --bg:#f6f7fb; --card:#fff; --text:#111; --sub:#555; --line:#eee;
+      --accent:#111;
+      --hotbg:#fef2f2; --hotbd:#fecaca;
+      --warnbg:#fff7ed; --warnbd:#fed7aa;
+      --midbg:#eff6ff; --midbd:#bfdbfe;
+      --okbg:#f0fdf4; --okbd:#bbf7d0;
+      --chip:#111; --chipText:#fff;
+    }
+    body{font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; margin:0; background:var(--bg); color:var(--text);}
+    .wrap{max-width:900px; margin:0 auto; padding:18px;}
+    .card{background:var(--card); border-radius:18px; padding:18px; box-shadow:0 8px 24px rgba(0,0,0,.06); margin:14px 0;}
+    h1{font-size:20px; line-height:1.35; margin:4px 0 10px;}
+    h2{font-size:16px; margin:0 0 10px;}
+    p{line-height:1.75; margin:10px 0;}
+    .small{font-size:13px; color:var(--sub); line-height:1.6;}
+    .q{padding:14px 0; border-top:1px solid var(--line);}
+    .q:first-child{border-top:none;}
+    .qtitle{font-weight:800; margin-bottom:10px;}
+    .scale{display:flex; gap:8px; flex-wrap:wrap;}
+    label{background:#f2f3f7; border:1px solid #e6e7ee; border-radius:999px; padding:8px 12px; cursor:pointer; user-select:none;}
+    input[type="radio"]{display:none;}
+    input[type="radio"]:checked + span{font-weight:800;}
+    input[type="radio"]:checked + span::after{content:" ✓"; }
+    .btn{display:inline-block; width:100%; padding:14px 14px; border-radius:14px; border:0; background:var(--accent); color:#fff; font-weight:800; font-size:16px; cursor:pointer;}
+    .btn:disabled{opacity:.35; cursor:not-allowed;}
+    .pill{display:inline-block; padding:6px 10px; border-radius:999px; background:var(--chip); color:var(--chipText); font-size:12px; margin:0 8px 8px 0;}
+    .resultTitle{font-size:18px; font-weight:900; margin:0 0 8px;}
+    .box{border:1px solid var(--line); border-radius:16px; padding:14px; background:#fff;}
+    .hot{background:var(--hotbg); border:1px solid var(--hotbd);}
+    .warn{background:var(--warnbg); border:1px solid var(--warnbd);}
+    .mid{background:var(--midbg); border:1px solid var(--midbd);}
+    .ok{background:var(--okbg); border:1px solid var(--okbd);}
+    .grid{display:grid; grid-template-columns:1fr; gap:10px;}
+    @media (min-width: 760px){ .grid{grid-template-columns:1fr 1fr;} }
+    .cta{border-radius:16px; padding:14px; border:1px dashed #c7c7c7; background:#fafafa;}
+    .cta a{color:#111; font-weight:800;}
+    .foot{color:#666; font-size:12px; margin-top:10px; line-height:1.6;}
+    .hr{height:1px; background:var(--line); margin:12px 0;}
+    .kicker{font-weight:900; letter-spacing:.02em; font-size:12px; color:#222; opacity:.9;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="card">
+      <div class="kicker">3分で判明</div>
+      <h1>「10カラットの実績」が安物に見えていない？<br>伝え方のズレ度 診断チェックシート</h1>
+
+      <p class="small">
+        採点基準：5点（よく当てはまる）〜1点（全く当てはまらない）<br>
+        ※この診断は、あなたの価値を下げるためではなく「価値が正しく伝わる状態」に整えるためのものです。
+      </p>
+
+      <p>
+        実力や経験があるのに、なぜか言葉が届かない。<br>
+        自分より経験が浅い人が、先に選ばれる。<br>
+        もし心当たりがあるなら、原因は能力ではなく——話し方に混ざる<b>“無意識のノイズ（ズレ）”</b>かもしれません。
+      </p>
+      <p class="small">
+        ここで言う「ノイズ」とは、内容以前に相手の脳が拾ってしまうサイン（視線・表情・語尾・フィラー・焦り・迎合など）のこと。<br>
+        10項目を直感で選び、合計点と“ズレの発生源”を可視化しましょう。
+      </p>
+    </div>
+
+    <form id="quiz" class="card">
+      <h2>診断テスト（全10問）</h2>
+
+      <div class="q">
+        <div class="qtitle">Q1：話している時、相手の目を見られず、視線が上や横に泳いでしまうことがある。</div>
+        <div class="scale" data-q="q1"></div>
+      </div>
+
+      <div class="q">
+        <div class="qtitle">Q2：真顔でいると「怒ってる？」「機嫌が悪い？」と誤解されることがある。</div>
+        <div class="scale" data-q="q2"></div>
+      </div>
+
+      <div class="q">
+        <div class="qtitle">Q3：緊張すると、無意識に髪や顔を触る／ペンをいじるなど、落ち着きなく動いてしまう。</div>
+        <div class="scale" data-q="q3"></div>
+      </div>
+
+      <div class="q">
+        <div class="qtitle">Q4：「〜と思いますぅ…」「〜ですがぁ…」と、語尾が伸びたり消え入りやすい。</div>
+        <div class="scale" data-q="q4"></div>
+      </div>
+
+      <div class="q">
+        <div class="qtitle">Q5：「えー」「あのー」「まぁ」などの、つなぎ言葉（フィラー）をよく使ってしまう。</div>
+        <div class="scale" data-q="q5"></div>
+      </div>
+
+      <div class="q">
+        <div class="qtitle">Q6：焦ると早口になり、息継ぎが浅くなって言葉が詰まることがある。</div>
+        <div class="scale" data-q="q6"></div>
+      </div>
+
+      <div class="q">
+        <div class="qtitle">Q7：「一応」「たぶん」「〜的な」など、ぼかした表現をよく使う。</div>
+        <div class="scale" data-q="q7"></div>
+      </div>
+
+      <div class="q">
+        <div class="qtitle">Q8：褒められた時に「いえいえ、私なんて…」と過剰に謙遜してしまう。</div>
+        <div class="scale" data-q="q8"></div>
+      </div>
+
+      <div class="q">
+        <div class="qtitle">Q9：沈黙や「間」が怖くて、つい言葉で埋めようと話し続けてしまう。</div>
+        <div class="scale" data-q="q9"></div>
+      </div>
+
+      <div class="q">
+        <div class="qtitle">Q10：嫌われたくない気持ちから、迎合したり「いい人」を演じてしまう。</div>
+        <div class="scale" data-q="q10"></div>
+      </div>
+
+      <button id="submitBtn" class="btn" type="button">結果を見る（自動集計）</button>
+      <div class="foot">※入力内容は端末内で計算されます（サーバー送信なし／個人情報の収集なし）。</div>
+    </form>
+
+    <div id="result" class="card" style="display:none;"></div>
+
+    <div class="card">
+      <div class="small">
+        もしこの診断を「LINEのURL」や「LPのボタン」に置けば、受講生はスマホでそのままチェックできます。<br>
+        公開方法は文末にまとめています。
+      </div>
+    </div>
+
+  </div>
+
+<script>
+  // 選びやすい並び（5→1）
+  const scaleHTML = (name) => {
+    const labels = [
+      [5, "5 よく当てはまる"],
+      [4, "4 やや当てはまる"],
+      [3, "3 どちらともいえない"],
+      [2, "2 あまり当てはまらない"],
+      [1, "1 全く当てはまらない"],
+    ];
+    return labels.map(([v, t]) => `
+      <label>
+        <input type="radio" name="${name}" value="${v}">
+        <span>${t}</span>
+      </label>
+    `).join("");
+  };
+
+  document.querySelectorAll(".scale").forEach(el=>{
+    const q = el.getAttribute("data-q");
+    el.innerHTML = scaleHTML(q);
+  });
+
+  const getVal = (q) => {
+    const checked = document.querySelector(`input[name="${q}"]:checked`);
+    return checked ? Number(checked.value) : null;
+  };
+
+  const sum = (arr) => arr.reduce((a,b)=>a+b,0);
+
+  // 合計点 → ゾーン
+  const zoneByTotal = (t) => {
+    if (t >= 40) return "RED";
+    if (t >= 30) return "YELLOW";
+    if (t >= 20) return "BLUE";
+    return "GOLD";
+  };
+
+  // 強いボトルネック（点が高い＝ノイズが多い）
+  const topIssue = (vis, aud, lang) => {
+    const items = [
+      {k:"視覚（見た目・動き）", v:vis, max:15},
+      {k:"聴覚（声・リズム）", v:aud, max:15},
+      {k:"言語・心理（言葉選び・マインド）", v:lang, max:20}
+    ].sort((a,b)=>b.v-a.v);
+    return items[0];
+  };
+
+  // ボトルネック強度（ざっくり）
+  const intensity = (top) => {
+    const ratio = top.v / top.max;
+    if (ratio >= 0.80) return "強め";
+    if (ratio >= 0.60) return "やや強め";
+    if (ratio >= 0.45) return "中くらい";
+    return "軽め";
+  };
+
+  // ゾーン別：品格×刺さり×具体
+  const zoneCopy = {
+    RED: {
+      pill: "ズレ度：大（レッドゾーン）",
+      cls: "hot",
+      title: "実績の“見え方”が割引されやすい状態",
+      body: `
+        <p>
+          今は、あなたの中身（実績・経験・専門性）よりも先に、相手の脳が<b>「不安」「迷い」「頼りなさ」</b>を拾ってしまいやすい状態です。
+          これは能力不足ではありません。<b>語尾／視線／無駄な動き／フィラー</b>など、無意識のサインが「第一印象の材料」になってしまうだけ。
+        </p>
+        <p>
+          ここが大事なところ。<br>
+          あなたは“足りない”のではなく、<b>混ざっているノイズを引けば、価値がそのまま高く見える</b>タイプです。
+          だから改善は、足すよりも<b>削る</b>が効きます。
+        </p>
+      `,
+      examples: `
+        <div class="hr"></div>
+        <p class="small"><b>起きやすい“損”の例</b><br>
+          ・提案の中身は良いのに「検討します」で流される<br>
+          ・セミナーで伝えているのに「結局何が言いたいの？」と言われる<br>
+          ・発信が伸びない（信頼より先に“弱さ”が伝わる）
+        </p>
+      `,
+      prescription: `
+        <p><b>今日からの1分処方箋（最優先3点）</b><br>
+          ①語尾を「。」で切る（最後の母音を伸ばさない）<br>
+          ②手の“置き場”を決める（動かすなら範囲を小さく）<br>
+          ③「えー」を言いそうなら、息を吸って0.5秒だけ止める
+        </p>
+      `
+    },
+    YELLOW: {
+      pill: "ズレ度：中（イエローゾーン）",
+      cls: "warn",
+      title: "“優しさ”が、プロの輪郭をぼかしてしまうことがある",
+      body: `
+        <p>
+          今は「悪くない。けれど、強く残らない」ラインに居やすいです。<br>
+          配慮がある人ほど、語尾が弱くなったり、遠慮が言葉に混ざりやすい。
+          すると相手は無意識に<b>「お願いしやすい人」「押せば譲る人」</b>と判断してしまうことがあります。
+        </p>
+        <p>
+          強くなる必要はありません。<br>
+          必要なのは、あなたのままで<b>“輪郭だけ”出す</b>こと。
+          <b>言い切り＋間</b>が入るだけで、同じ内容でも「プロの佇まい」が成立します。
+        </p>
+      `,
+      examples: `
+        <div class="hr"></div>
+        <p class="small"><b>起きやすい“損”の例</b><br>
+          ・価格を提示するときに弱くなって値下げ交渉を招く<br>
+          ・会議で意見が通りにくい（優しいのに軽く見られる）<br>
+          ・クライアントに振り回されやすい（線引きが曖昧）
+        </p>
+      `,
+      prescription: `
+        <p><b>今日からの1分処方箋（輪郭を出す）</b><br>
+          ①語尾は0.2秒早く切る（伸ばさない）<br>
+          ②言い切った後に「3秒の沈黙」を1回だけ作る<br>
+          ③「たぶん／一応」を1日1回だけ削る
+        </p>
+      `
+    },
+    BLUE: {
+      pill: "ズレ度：小（ブルーゾーン）",
+      cls: "mid",
+      title: "ベースはOK。勝負所で“品格の圧”を乗せる段階",
+      body: `
+        <p>
+          大きなノイズは少なく、土台はできています。<br>
+          ただ、緊張する場面（初対面／単価が上がる提案／大人数の前）ほど、
+          速度・呼吸・語尾が微妙に揺れやすい。<br>
+          その<b>わずかな揺れ</b>が、相手に「迷い」の印象を渡すことがあります。
+        </p>
+        <p>
+          ここからは<b>低中音（レゾナンス）</b>と<b>戦略的な間</b>で、
+          安心感と格を足していくフェーズです。
+        </p>
+      `,
+      examples: `
+        <div class="hr"></div>
+        <p class="small"><b>起きやすい“もったいない”例</b><br>
+          ・最後の決め台詞が弱く、印象が薄く終わる<br>
+          ・緊張で早口になり、価値が“忙しく”見える<br>
+          ・良い話なのに「余韻」がなく、記憶に残りにくい
+        </p>
+      `,
+      prescription: `
+        <p><b>今日からの1分処方箋（格を乗せる）</b><br>
+          ①一文目だけ“低め”で入る（声を落とす）<br>
+          ②句点ごとに小さく息を吸う（呼吸の整理）<br>
+          ③結論の前に「1拍」間を置く
+        </p>
+      `
+    },
+    GOLD: {
+      pill: "ズレ度：最小（ゴールドゾーン）",
+      cls: "ok",
+      title: "ノイズレス。価値がまっすぐ届く状態",
+      body: `
+        <p>
+          声・言葉・態度の一貫性が高く、相手が安心して任せやすい話し方です。<br>
+          「この人に頼みたい」が自然に起きる、いわば<b>“品格が先に伝わる”状態</b>。
+        </p>
+        <p>
+          次の伸びしろは「伝える」から「動かす」へ。<br>
+          事実だけでなく、相手の未来が見える言葉を一行足すと、<b>選ばれ方</b>が変わります。
+        </p>
+      `,
+      examples: `
+        <div class="hr"></div>
+        <p class="small"><b>さらに強くなるポイント</b><br>
+          ・“一語だけゆっくり”で説得力が跳ねる<br>
+          ・相手メリットを一文で結ぶと、記憶定着が上がる<br>
+          ・沈黙を恐れないほど「格」が出る
+        </p>
+      `,
+      prescription: `
+        <p><b>今日からの1分処方箋（選ばれ方を変える）</b><br>
+          ①強調したい一語だけ、ゆっくり言う<br>
+          ②相手メリットを一文で結ぶ（例：だから安心です）<br>
+          ③語尾に“余韻”を残す（伸ばすのではなく「間」で余韻）
+        </p>
+      `
+    }
+  };
+
+  // ボトルネック別：より具体的に丁寧に（フロント向け）
+  const categoryAdvice = (top) => {
+    const tag = intensity(top);
+    if (top.k.startsWith("視覚")) {
+      return `
+        <div class="box">
+          <div><b>あなたの主ボトルネック：視覚のノイズ（${tag}）</b></div>
+          <p class="small">
+            相手は内容より先に「落ち着き」「自信」「信頼」を目で判断します。
+            視線や手の動きが揺れると、言葉の価値が“割引”されやすくなります。
+          </p>
+          <p><b>整えるポイント（すぐ効く）</b><br>
+            ・視線は「相手の眉間〜目の間」を1文のあいだだけ固定<br>
+            ・手は“置き場”を決める（机の上／太もも）→まず動きを止める<br>
+            ・真顔が強い方は、話し始めに口角を1mmだけ上げる（作り笑い不要）
+          </p>
+          <p class="small"><b>一言で言うと：</b>動きを減らすほど、あなたの実績が“高く見える”。</p>
+        </div>
+      `;
+    }
+    if (top.k.startsWith("聴覚")) {
+      return `
+        <div class="box">
+          <div><b>あなたの主ボトルネック：聴覚のノイズ（${tag}）</b></div>
+          <p class="small">
+            “信頼”は声の安定感で決まります。語尾・フィラー・呼吸が乱れると、
+            相手は無意識に「不安」を受け取ります（内容以前に）。
+          </p>
+          <p><b>整えるポイント（すぐ効く）</b><br>
+            ・語尾は「。」で切る（最後の母音を伸ばさない）<br>
+            ・フィラーが出そうになったら、0.5秒だけ黙って息を吸う<br>
+            ・早口対策は「一文ごとに息を吸う」だけで改善します
+          </p>
+          <p class="small"><b>一言で言うと：</b>声が整うと、あなたの言葉は“価格が上がる”。</p>
+        </div>
+      `;
+    }
+    return `
+      <div class="box">
+        <div><b>あなたの主ボトルネック：言語・心理のノイズ（${tag}）</b></div>
+        <p class="small">
+          ぼかし言葉・過剰謙遜・迎合は、あなたの人格を下げるのではなく“単価”を下げます。
+          相手は「この人は責任を取り切る人か」を言葉で判断するからです。
+        </p>
+        <p><b>整えるポイント（すぐ効く）</b><br>
+          ・「たぶん／一応／〜的な」を、まず1つだけ削る<br>
+          ・褒められたら「ありがとうございます。嬉しいです。」で止める<br>
+          ・沈黙が怖い時ほど、1拍置く（間は“自信のサイン”）
+        </p>
+        <p class="small"><b>一言で言うと：</b>言い切れるほど、あなたの実績は“本物に見える”。</p>
+      </div>
+    `;
+  };
+
+  // “次の一歩”の文面（フロント用に品格）
+  const nextStepBlock = () => {
+    // ここは後でbatacoさんのURLに差し替えOK
+    const guideUrl = "https://example.com"; // ←差し替え
+    return `
+      <div class="cta">
+        <div style="font-weight:900; margin-bottom:6px;">次の一歩（ここからが本番）</div>
+        <div class="small">
+          ズレは才能ではなく“癖”。整えた分だけ、あなたの実績はそのまま高く見えます。<br>
+          まずは今日の処方箋を1つだけ実行して、声と佇まいの変化を体感してください。
+        </div>
+        <div class="hr"></div>
+        <div class="small">
+          ※主催：bataco（スタイリッシュトーキング）<br>
+          もし「自分のズレを最短で直したい」方は、こちらをご覧ください：<br>
+          <a href="${guideUrl}" target="_blank" rel="noopener">▶ 案内ページを開く</a>
+        </div>
+      </div>
+    `;
+  };
+
+  document.getElementById("submitBtn").addEventListener("click", ()=>{
+    const qs = ["q1","q2","q3","q4","q5","q6","q7","q8","q9","q10"];
+    const vals = qs.map(getVal);
+
+    if (vals.some(v=>v===null)){
+      alert("未回答の項目があります。10問すべて選んでください。");
+      return;
+    }
+
+    const total = sum(vals);
+    const vis = sum(vals.slice(0,3));    // Q1-3
+    const aud = sum(vals.slice(3,6));    // Q4-6
+    const lang = sum(vals.slice(6,10));  // Q7-10（最大20）
+
+    const zone = zoneByTotal(total);
+    const z = zoneCopy[zone];
+    const top = topIssue(vis, aud, lang);
+
+    // “要注意項目”を拾って、より具体化
+    const flags = [];
+    const flagIf = (idx, v, label) => { if (v >= 4) flags.push(label); };
+    flagIf(1, vals[0], "視線が泳ぎやすい（自信が薄く見られやすい）");
+    flagIf(2, vals[1], "表情が誤解されやすい（硬く見られやすい）");
+    flagIf(3, vals[2], "無意識の動きが出やすい（落ち着きが割引されやすい）");
+    flagIf(4, vals[3], "語尾が弱くなりやすい（断定の印象が薄れる）");
+    flagIf(5, vals[4], "フィラーが多め（説得力が削られる）");
+    flagIf(6, vals[5], "早口・呼吸が浅い（焦りが伝わる）");
+    flagIf(7, vals[6], "ぼかし言葉が出やすい（責任感が薄く見える）");
+    flagIf(8, vals[7], "過剰謙遜しがち（価値提示が弱くなる）");
+    flagIf(9, vals[8], "間を怖がりやすい（余裕が消える）");
+    flagIf(10, vals[9], "迎合しやすい（線引きが曖昧に見える）");
+
+    const highlights = flags.length
+      ? `<div class="box" style="margin-top:12px;">
+           <div style="font-weight:900; margin-bottom:6px;">今回、特に出やすい“ズレ”</div>
+           <div class="small">※4点以上の項目を表示しています（当てはまるほど、改善の伸びしろが大きいです）。</div>
+           <ul style="margin:10px 0 0 18px; line-height:1.7;">
+             ${flags.slice(0,6).map(x=>`<li>${x}</li>`).join("")}
+           </ul>
+         </div>`
+      : `<div class="box" style="margin-top:12px;">
+           <div style="font-weight:900; margin-bottom:6px;">今回、特に強い“ズレ”は多くありません</div>
+           <div class="small">大きなノイズが少ない状態です。あとは勝負所で崩れない設計にすると、さらに盤石になります。</div>
+         </div>`;
+
+    const resultEl = document.getElementById("result");
+    resultEl.style.display = "block";
+    resultEl.innerHTML = `
+      <div class="resultTitle">診断結果</div>
+      <div class="pill">${z.pill}</div>
+      <div class="pill">合計：${total}点</div>
+      <div class="pill">主ボトルネック：${top.k}</div>
+
+      <div class="box ${z.cls}" style="margin-top:12px;">
+        <div style="font-weight:950; font-size:16px; margin-bottom:6px;">${z.title}</div>
+        ${z.body}
+        ${z.examples}
+        ${z.prescription}
+      </div>
+
+      ${highlights}
+
+      <div style="margin-top:14px; font-weight:950;">内訳（ズレの発生源）</div>
+      <div class="grid" style="margin-top:10px;">
+        <div class="box"><b>視覚のノイズ</b><div class="small">Q1-3 合計：${vis}点（最大15）</div></div>
+        <div class="box"><b>聴覚のノイズ</b><div class="small">Q4-6 合計：${aud}点（最大15）</div></div>
+        <div class="box"><b>言語・心理のノイズ</b><div class="small">Q7-10 合計：${lang}点（最大20）</div></div>
+      </div>
+
+      <div style="margin-top:12px;">
+        ${categoryAdvice(top)}
+      </div>
+
+      <div style="margin-top:12px;">
+        ${nextStepBlock()}
+      </div>
+
+      <div class="foot">
+        この診断は「あなたの価値」を裁くものではありません。<br>
+        価値が伝わらない原因（ズレ）を見える化し、最短で整えるためのチェックです。
+      </div>
+    `;
+
+    resultEl.scrollIntoView({behavior:"smooth"});
+  });
+</script>
+</body>
+</html>
